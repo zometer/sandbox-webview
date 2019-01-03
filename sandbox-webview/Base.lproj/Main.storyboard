@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,64 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="sandbox_webview" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n5G-w6-Iyt" userLabel="scannerView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TD2-R6-Z8L" userLabel="webView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="597"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4B4-JQ-p0k" userLabel="bottomContainer">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-PR-N3L" userLabel="scanButton">
+                                        <rect key="frame" x="170" y="10" width="35" height="30"/>
+                                        <state key="normal" title="Scan"/>
+                                        <connections>
+                                            <action selector="toggleScannerView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pzw-8N-bb5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="cOE-PR-N3L" firstAttribute="centerX" secondItem="4B4-JQ-p0k" secondAttribute="centerX" id="MiT-el-YA2"/>
+                                    <constraint firstItem="cOE-PR-N3L" firstAttribute="centerY" secondItem="4B4-JQ-p0k" secondAttribute="centerY" id="NvF-af-JDw"/>
+                                    <constraint firstAttribute="height" constant="50" id="zTB-ao-usp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4B4-JQ-p0k" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="AqR-s5-oHB"/>
+                            <constraint firstItem="TD2-R6-Z8L" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="F7U-Qt-hpH"/>
+                            <constraint firstItem="4B4-JQ-p0k" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="HKr-Fn-5Y0"/>
+                            <constraint firstItem="TD2-R6-Z8L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="LAF-fw-ze2"/>
+                            <constraint firstItem="TD2-R6-Z8L" firstAttribute="bottom" secondItem="4B4-JQ-p0k" secondAttribute="top" id="Vrb-3H-Aou"/>
+                            <constraint firstItem="4B4-JQ-p0k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="kPb-0f-ktD"/>
+                            <constraint firstItem="TD2-R6-Z8L" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vbh-BK-vYi"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="scannerView" destination="n5G-w6-Iyt" id="8aZ-A6-SMz"/>
+                        <outlet property="webView" destination="TD2-R6-Z8L" id="yMI-GV-nlf"/>
+                        <outlet property="webViewTopConstraint" destination="F7U-Qt-hpH" id="CQz-vC-s7o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>
