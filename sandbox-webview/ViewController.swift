@@ -6,6 +6,7 @@
 //  Copyright © 2019 Christopher Spears. All rights reserved.
 //
 
+import AVFoundation
 import UIKit
 import WebKit
 
@@ -15,8 +16,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var webViewTopConstraint: NSLayoutConstraint!
     
-    var scannerPanelOpen = false;
     let scannerPanelHeight : CGFloat = 120 ;
+    var scannerPanelOpen = false;
+    var captureSession: AVCaptureSession!;
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer!;
 
     @IBAction func toggleScannerView(_ sender: UIButton) {
         let verb = scannerPanelOpen ? "Closing" : "Opening";
@@ -24,14 +27,43 @@ class ViewController: UIViewController {
 
         if (scannerPanelOpen) {
             scannerView.frame.size.height = CGFloat(0);
-            webViewTopConstraint.constant = self.view.safeAreaInsets.top;
+            webViewTopConstraint.constant = CGFloat(0);  // self.view.safeAreaInsets.top;
+            destroyCameraScannerView(container: scannerView);
         } else {
             webViewTopConstraint.constant = scannerPanelHeight + self.view.safeAreaInsets.top;
+            createCameraScannerView(container: scannerView);
         }
 
         scannerPanelOpen = !scannerPanelOpen;
     }
+
+    func createCameraScannerView(container:UIView) {
+        let captureDevice = AVCaptureDevice.default(for: AVMediaType.video);
+        // TODO: Wrap in do / catch block.
+        do {
+            let input = try AVCaptureDeviceInput(device: captureDevice!);
+            captureSession = AVCaptureSession();
+            captureSession.addInput(input);
+
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
+            videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
+            videoPreviewLayer.frame = view.layer.bounds;
+            scannerView.layer.addSublayer(videoPreviewLayer);
+            scannerView.frame.size.height = scannerPanelHeight;
+            captureSession.startRunning();
+        } catch {
+            print(error);
+        }
+    }
     
+    func destroyCameraScannerView(container:UIView) {
+        videoPreviewLayer.removeFromSuperlayer();
+        videoPreviewLayer = nil;
+        captureSession?.stopRunning();
+        captureSession = nil;
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
